@@ -1,16 +1,17 @@
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 public class BMI extends JFrame{
 	
-	private int age;
-	private int height;
-	private int weight;
-	private String name;
+
 	private JTextField name0 = new JTextField();
 	private JTextField age0 = new JTextField();
-	private JTextField height0 = new JTextField();
+	private JTextField oheight = new JTextField();
 	private JTextField weight0 = new JTextField();
 	private JTextField bmi = new JTextField();
 	private JTextField status = new JTextField();
@@ -24,9 +25,9 @@ public class BMI extends JFrame{
 		p1.add(name0);
 		p1.add(new JLabel("Age"));
 		p1.add(age0);
-		p1.add(new JLabel("Height"));
-		p1.add(height0);
-		p1.add(new JLabel("Weight"));
+		p1.add(new JLabel("Height(cm)"));
+		p1.add(oheight);
+		p1.add(new JLabel("Weight(kg)"));
 		p1.add(weight0);	
 		
 		JPanel p2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -42,8 +43,33 @@ public class BMI extends JFrame{
 		add(p2, BorderLayout.CENTER);
 		add(p3, BorderLayout.SOUTH);
 		
-
+		button.addActionListener((ActionListener) new ButtonListener());
 	}
+	
+
+	class ButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			double height = Double.parseDouble(oheight.getText());
+			double weight = Double.parseDouble(weight0.getText());
+			
+			double result = weight / ((height/100)*(height/100));
+			bmi.setText(String.format("%.1f", result));
+			
+			if (result < 18.5)
+				status.setText("Underweight");
+			else if(result < 25)
+				status.setText("Normal");
+			else if (result < 30 )
+				status.setText("Overweight");
+			else 
+				status.setText("Obese");
+		}
+
+		
+		
+	}
+
+	
 	
 	public static void main(String[] args){
 		BMI frame = new BMI();		
@@ -57,6 +83,5 @@ public class BMI extends JFrame{
 	
 		
 	}
-
 
 
